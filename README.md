@@ -22,9 +22,12 @@ In this report, we discuss one question to perform hypothesis test on, and one p
 ### Data Cleaning
 
 * We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```.
-* Drop all rows where all columns are missing.
+* dorp all columns that are all na values, which is not associated with teams
+* Drop all rows where all columns are missing, and all columns where all rows are missing.
 * Convert the ```date``` columns to ```pd.Datetime```.
-* Drop all rows where ```gamelength```>= 500,000, convert the unit of ```gamelength``` from s to min.
+* Replace the unknown team in teamname as na value
+* Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min.
+* drop rows that the earned gold is less than 0, it should only contain positive value.
 * Convert all binary encoded columns to ```bool```.
 
 ### Univariate Analysis
@@ -45,7 +48,7 @@ We can see that the data is roughly normally distributed, centering around 32.5 
 Here is a graph showing the distributions of gold earned by the team in the game conditional on game results (```win``` or ```lose```):
 
 <iframe 
-src="img/distribution_of_earned_gold_each_game.html" 
+src="img/distribution_of_earned_gold_each_game_condition_on_result.html" 
 width=600 
 height=500
 frameBorder=0>
