@@ -61,7 +61,7 @@ Both distributions are roughly normally distributed, with the ```win``` distribu
 The following pivot table shows the average team kills for lost and won teams for different years.
 
 <iframe 
-src="avg_kills.html" 
+src="dataframe/avg_kills.html" 
 width=800 
 height=600
 frameBorder=0>
