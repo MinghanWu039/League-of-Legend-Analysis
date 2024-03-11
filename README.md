@@ -1,4 +1,4 @@
-# League of Legend Analysis
+# League of Legends Analysis
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
 **Names:** Rihui Ling and Minghan Wu
@@ -36,8 +36,8 @@ Here is a histogram showing the distribution of ```gamelength```:
 
 <iframe 
 src="img/distribution_of_game_length_(min).html" 
-width=600 
-height=500
+width=800 
+height=600
 frameBorder=0>
 </iframe>
 
@@ -49,8 +49,8 @@ Here is a graph showing the distributions of gold earned by the team in the game
 
 <iframe 
 src="img/distribution_of_earned_gold_each_game_condition_on_result.html" 
-width=600 
-height=500
+width=800
+height=600
 frameBorder=0>
 </iframe>
 
@@ -61,9 +61,9 @@ Both distributions are roughly normally distributed, with the ```win``` distribu
 The following pivot table shows the average team kills for lost and won teams for different years.
 
 <iframe 
-src="img/distribution_of_kills_per_game.html" 
-width=600 
-height=500
+src="dataframe/avg_kills.html" 
+width=800 
+height=600
 frameBorder=0>
 </iframe>
 
