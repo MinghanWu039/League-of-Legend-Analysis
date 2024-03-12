@@ -1,4 +1,4 @@
-# League of Legends Analysis
+# _League of Legends Analysis_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
 **Names:** Rihui Ling and Minghan Wu
@@ -6,13 +6,13 @@
 ## Introduction
 
 Our dataset is on all of the professional League of Legends games between 2014 and 2024 (inclusive).
-The dataset contains one row per game per team (so two rows per game). The game data is comprehensive of most aspects of the game. Our cleaned game data has ```132058 rows × 30 columns```.
+The dataset contains one row per game per team (so two rows per game). The game data is comprehensive of most aspects of the game. Our cleaned game data has ```132058 rows × 27 columns```.
 In this report, we discuss one question to perform hypothesis test on, and one prediction problem.
 
 *Hypotheses:*
-* H0: The average kills per game in LPL is equal to the average kills in all leagues.
+* H0: _Kills per game_ from 2014 to 2018 (inclusive) and that from 2019 to 2024 (inclusive) are equal.
 
-* H1:The average kills per game in LPL is greater than the average kills in all leagues.
+* H1: _Kills per game_ from 2014 to 2018 (inclusive) is smaller than that from 2019 to 2024 (inclusive).
 
 *Prediction Problem:*
 * Predict whether the team is winning/losing given all other aforementioned data.
@@ -33,7 +33,7 @@ In this report, we discuss one question to perform hypothesis test on, and one p
 
 Here are the columns we decide to keep:
 
-* Basic game stats: ```gameid``` ```league``` ```year``` ```game``` ```patch``` ```gamelength```
+* Basic game stats: ```gameid``` ```patch``` ```gamelength```
 * Basic team stats: ```side``` ```teamname``` ```teamid```  
 * Team game results: ```result``` ```kills``` ```deaths``` ```assists``` ```firstblood``` ```damagetochampions``` ```towers``` ```opp_towers``` ```firstmidtower``` ```firsttothreetowers```
 * General game resources: ```earnedgold``` ```firstdragon``` ```dragons``` ```opp_dragons``` ```firstherald``` ```elders``` ```opp_elders``` ```firstbaron``` ```barons``` ```opp_barons``` ```opp_barons``` 
@@ -88,6 +88,12 @@ height=600
 frameBorder=0>
 </iframe>
 
+### Not Missing at Random (NMAR)
+
+We believe the missingness of ```game``` is NMAR. Upon researching online, we discover that the missingness results largely from the fact that there is only one game in the split in that league and year.
+
+As such, the missing mechanism of ```game``` is NMAR, with value 1 (representing the first game) being significantly more prone to be missing than other values.
+
 ### Missing at Random (MAR)
 
 We believe the missingness of ```elders``` is dependent on ```patch```. To confirm this observation, we run a permutation test on the two columns.
@@ -139,3 +145,5 @@ width=800
 height=600
 frameBorder=0>
 </iframe>
+
+From this, we can see that the missingness of ```gameid``` is independent from the values of other columns, with 99% confidence level.
