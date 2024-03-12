@@ -56,7 +56,7 @@ We can see that the data is roughly normally distributed, centering around 32.5 
 Here is a graph showing the distributions of gold earned by the team in the game conditional on game results (```win``` or ```lose```):
 
 <iframe 
-src="img/distribution_of_earned_gold_each_game_condition_on_result.html" 
+src="img/distribution_of_earned_gold_each_game_by_result.html" 
 width=800
 height=600
 frameBorder=0>
@@ -104,7 +104,7 @@ frameBorder=0>
 This is the DataFrame showing the same distribution:
 
 <iframe 
-src="img/patch_missingness.html" 
+src="table/patch_missingness.html" 
 width=800
 height=600
 frameBorder=0>
@@ -134,7 +134,7 @@ For categorical columns, we compute the tvds between the missing group and the n
 Here is the DataFrame showing our result:
 
 <iframe 
-src="img/gameid_missingness.html" 
+src="table/gameid_missingness.html" 
 width=800
 height=600
 frameBorder=0>
