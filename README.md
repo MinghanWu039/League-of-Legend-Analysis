@@ -6,30 +6,34 @@
 ## Introduction
 
 Our dataset is on all of the professional League of Legends games between 2014 and 2024 (inclusive).
-The dataset contains one row per game per team (so two rows per game). The game data is comprehensive of most aspects of the game. Our cleaned game data has ```132058 rows × 27 columns```.
+The dataset contains one row per game per team (so two rows per game). The game data is comprehensive of most aspects of the game. Our cleaned game data has ```131414 rows × 27 columns```.
 In this report, we discuss one question to perform hypothesis test on, and one prediction problem.
 
 *Hypotheses:*
-* H0: _Kills per game_ from 2014 to 2018 (inclusive) and that from 2019 to 2024 (inclusive) are equal.
 
-* H1: _Kills per game_ from 2014 to 2018 (inclusive) is smaller than that from 2019 to 2024 (inclusive).
+In the history of LoL, the choice of side (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. For this reason, we put forth this question:
+
+_Will the choice of side by a team in a game affect the team kills?_
+
+* $H_0$: The blue side has the same expected team kills as the red side.
+
+* $H_1$: The blue side has higher expected team kills than the red side.
 
 *Prediction Problem:*
-* Predict whether the team is winning/losing given all other aforementioned data.
+* Predict whether a team is winning/losing a game, given other data.
 
 ## Data Cleaning and Exploratory Data Analysis
 
 ### Data Cleaning
 
-1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```.
+1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
 2 Drop all columns that are all na values, which is not associated with teams
-3 Drop rows that missing percentage is above the average (2 col), and all columns where all rows are missing.
+3 Drop rows that missing percentage is above the average (2 col), and all columns where all rows are missing
 4 Keep only the columns useful for our analysis
-5 Replace the unknown team in teamname as na value
-6 Convert ```patch``` to major patch
-7 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min.
-8 drop rows that the earned gold is less than 0, it should only contain positive value.
-9 Convert all binary encoded columns to ```bool```.
+5 Convert ```patch``` to major patch; Drop all missing ```patch``` (since ```patch``` is a key important information)
+6 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
+7 drop rows that the earned gold is less than 0, it should only contain positive value.
+8 Convert all binary encoded columns to ```bool```
 
 Here are the columns we decide to keep:
 
@@ -82,7 +86,7 @@ We can see that for each year, the difference between average team kills for won
 In this section, we analyze the missing mechanisms of several of the columns. To give an overview, here is a DataFrame showing how many rows are missing for each column:
 
 <iframe 
-src="table/rows_missing_by_columns.html" 
+src="table/col_missing.html" 
 width=800
 height=600
 frameBorder=0>
@@ -147,3 +151,49 @@ frameBorder=0>
 </iframe>
 
 From this, we can see that the missingness of ```gameid``` is independent from the values of other columns, with 99% confidence level.
+
+### Handling Missingness
+
+* Listwise delete all rows where ```gameid``` is missing.
+* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $n$ ```elders``` values from the rows with the same ```patch```, where $n$ is the number of ```elders``` missing corresponding to that ```patch```.
+
+## Hypothesis Testing
+
+Question: _Will the choice of side by a team in a game affect the team kills?_
+
+* $H_0$: The blue side has the same expected team kills as the red side.
+
+* $H_1$: The blue side has higher expected team kills than the red side.
+
+Here is a graph showing the overlaying distributions of red-side kills and blue-side kills:
+
+<iframe 
+src="img/distribution_of_kills_by_side.html" 
+width=800
+height=600
+frameBorder=0>
+</iframe>
+
+We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic $average_kills_blue - average_kills_red$.
+
+Below is a graph showing the distribution of the test tatistic according to $H_0$ and our observed statistic:
+
+<iframe 
+src="img/distribution_of_difference_in_mean_(kills).html" 
+width=800
+height=600
+frameBorder=0>
+</iframe>
+
+Since p-value we obtain is 0.0, we reject $H_0$. This test makes us conclude that more likely that not, the choosing the blue side does increase the expected kills of the team.
+
+## Framing a Prediction Problem
+
+We try to obtain a model that predicts whether a team is winning/losing a game, given the data we kept.
+
+This is a binary classification problem.
+
+We will use (test set) accuracy to evaluate our model, since 
+* It is a more direct metric for the success of the model
+* We do not have a preference towards false positive / false negative
+* The ```result``` we get after cleaning and imputation has about equal numbers of ```1``` and ```0``` (the percentage of winning is 50.01%)
