@@ -87,10 +87,8 @@ In this section, we analyze the missing mechanisms of several of the columns. To
 
 <iframe 
 src="table/col_missing.html" 
-
-[//]: # (width=800)
-
-[//]: # (height=600)
+width=800
+height=600
 frameBorder=0>
 </iframe>
 
