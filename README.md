@@ -179,7 +179,7 @@ height=600
 frameBorder=0>
 </iframe>
 
-We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic $average_kills_blue - average_kills_red$.
+We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic $average\_kills\_blue - average\_kills\_red$.
 
 Below is a graph showing the distribution of the test tatistic according to $H_0$ and our observed statistic:
 
