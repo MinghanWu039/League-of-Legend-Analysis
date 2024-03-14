@@ -102,7 +102,16 @@ As such, the missing mechanism of ```game``` is NMAR, with value 1 (representing
 
 We believe the missingness of ```elders``` is dependent on ```patch```. To confirm this observation, we run a permutation test on the two columns.
 
-This is the observed conditional distribution:
+This is the missing percentage of elder by patch:
+
+<iframe 
+src="table/elder_missingness.html" 
+width=800
+height=600
+frameBorder=0>
+</iframe>
+
+Visualize observed conditional distribution:
 
 <iframe 
 src="img/distribution_of_patch_by_missingness_of_elders.html" 
@@ -111,14 +120,7 @@ height=600
 frameBorder=0>
 </iframe>
 
-This is the DataFrame showing the same distribution:
 
-<iframe 
-src="table/patch_missingness.html" 
-width=800
-height=600
-frameBorder=0>
-</iframe>
 
 After running the permutation and computing Total Variation Distance (TVD) 500 times, this is the distribution we get:
 
@@ -131,7 +133,7 @@ frameBorder=0>
 
 We see that the observed tvd 1.2765 is significantly greater than most of the tvd values resulted from distribution. The p-value for the permutation test is 0.0. 
 
-Hence we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
+Hence, we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
 
 ### Missing Completely at Random (MCAR)
 
