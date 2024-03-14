@@ -1,3 +1,8 @@
+<script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript">
+</script>
+
 # _League of Legends Analysis_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
@@ -30,7 +35,7 @@ _Will the choice of side by a team in a game affect the team kills?_
 2 Drop all columns that are all na values, which is not associated with teams
 3 Drop rows that missing percentage is above the average (2 col), and all columns where all rows are missing
 4 Keep only the columns useful for our analysis
-5 Convert ```patch``` to major patch; Drop all missing ```patch``` (since ```patch``` is a key important information)
+5 Convert ```patch``` to major patch
 6 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
 7 drop rows that the earned gold is less than 0, it should only contain positive value.
 8 Convert all binary encoded columns to ```bool```
@@ -75,7 +80,7 @@ The following pivot table shows the average team kills for lost and won teams fo
 <iframe 
 src="table/avg_kills.html" 
 width=800 
-height=600
+height=400
 frameBorder=0>
 </iframe>
 
@@ -88,7 +93,7 @@ In this section, we analyze the missing mechanisms of several of the columns. To
 <iframe 
 src="table/col_missing.html" 
 width=800
-height=600
+height=300
 frameBorder=0>
 </iframe>
 
@@ -146,7 +151,7 @@ Here is the DataFrame showing our result:
 <iframe 
 src="table/gameid_missingness.html" 
 width=800
-height=600
+height=400
 frameBorder=0>
 </iframe>
 
@@ -155,7 +160,7 @@ From this, we can see that the missingness of ```gameid``` is independent from t
 ### Handling Missingness
 
 * Listwise delete all rows where ```gameid``` is missing.
-* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $n$ ```elders``` values from the rows with the same ```patch```, where $n$ is the number of ```elders``` missing corresponding to that ```patch```.
+* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $n$ ```elders``` values from the rows with the same ```patch```, where $n$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category).
 
 ## Hypothesis Testing
 
