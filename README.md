@@ -171,8 +171,10 @@ Here is a graph showing the overlaying distributions of red-side kills and blue-
 
 <iframe 
 src="img/distribution_of_kills_by_side.html" 
-width=800
-height=600
+
+[//]: # (width=800)
+
+[//]: # (height=600)
 frameBorder=0>
 </iframe>
 
