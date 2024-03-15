@@ -1,8 +1,3 @@
-<script
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-  type="text/javascript">
-</script>
-
 # _League of Legends Analysis_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
@@ -119,7 +114,7 @@ frameBorder=0>
 This is the DataFrame showing the same distribution:
 
 <iframe 
-src="table/patch_missingness.html" 
+src="table/elder_missingness.html" 
 width=800
 height=600
 frameBorder=0>
@@ -179,7 +174,7 @@ height=600
 frameBorder=0>
 </iframe>
 
-We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic $average\_kills\_blue - average\_kills\_red$.
+We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic _average kills blue - average kills red_.
 
 Below is a graph showing the distribution of the test tatistic according to $H_0$ and our observed statistic:
 
