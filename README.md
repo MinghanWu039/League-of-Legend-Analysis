@@ -114,7 +114,7 @@ frameBorder=0>
 This is the DataFrame showing the same distribution:
 
 <iframe 
-src="table/patch_missingness.html" 
+src="table/elder_missingness.html" 
 width=800
 height=600
 frameBorder=0>
