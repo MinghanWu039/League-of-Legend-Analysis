@@ -1,9 +1,10 @@
+<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 # _League of Legends Analysis_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
 **Names:** Rihui Ling and Minghan Wu
 
-<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 ## Introduction
 
@@ -17,9 +18,9 @@ In the history of LoL, the choice of side (blue or red) is often believed to hav
 
 _Will the choice of side by a team in a game affect the team kills?_
 
-* $H_0$: The blue side has the same expected team kills as the red side.
+* \(H_0\): The blue side has the same expected team kills as the red side.
 
-* $H_1$: The blue side has higher expected team kills than the red side.
+* \(H_1\): The blue side has higher expected team kills than the red side.
 
 *Prediction Problem:*
 * Predict whether a team is winning/losing a game, given other data.
@@ -157,15 +158,15 @@ From this, we can see that the missingness of ```gameid``` is independent from t
 ### Handling Missingness
 
 * Listwise delete all rows where ```gameid``` is missing.
-* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $n$ ```elders``` values from the rows with the same ```patch```, where $n$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category).
+* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select \(n\) ```elders``` values from the rows with the same ```patch```, where \(n\) is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category).
 
 ## Hypothesis Testing
 
 Question: _Will the choice of side by a team in a game affect the team kills?_
 
-* $H_0$: The blue side has the same expected team kills as the red side.
+* \(H_0\): The blue side has the same expected team kills as the red side.
 
-* $H_1$: The blue side has higher expected team kills than the red side.
+* \(H_1\): The blue side has higher expected team kills than the red side.
 
 Here is a graph showing the overlaying distributions of red-side kills and blue-side kills:
 
@@ -178,7 +179,7 @@ frameBorder=0>
 
 We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic _average kills blue - average kills red_.
 
-Below is a graph showing the distribution of the test tatistic according to $H_0$ and our observed statistic:
+Below is a graph showing the distribution of the test tatistic according to \(H_0\) and our observed statistic:
 
 <iframe 
 src="img/distribution_of_difference_in_mean_(kills).html" 
@@ -187,7 +188,7 @@ height=600
 frameBorder=0>
 </iframe>
 
-Since p-value we obtain is 0.0, we reject $H_0$. This test makes us conclude that more likely that not, the choosing the blue side does increase the expected kills of the team.
+Since p-value we obtain is 0.0, we reject \(H_0\). This test makes us conclude that more likely that not, the choosing the blue side does increase the expected kills of the team.
 
 ## Framing a Prediction Problem
 
