@@ -1,5 +1,3 @@
-<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 # _League of Legends Analysis_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
@@ -31,12 +29,12 @@ _Will the choice of side by a team in a game affect the team kills?_
 
 1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
 2 Drop all columns that are all na values, which is not associated with teams
-3 Drop rows that missing percentage is above the average (2 col), and all columns where all rows are missing
-4 Keep only the columns useful for our analysis
-5 Convert ```patch``` to major patch
-6 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
-7 drop rows that the earned gold is less than 0, it should only contain positive value.
-8 Convert all binary encoded columns to ```bool```
+3 Keep only the columns useful for our analysis
+4 Convert ```patch``` to major patch
+5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
+6 drop rows that the earned gold is less than 0, it should only contain positive value
+7 Convert all binary encoded columns to ```bool```
+8 Convert all numerical column with integral values to ```int```
 
 Here are the columns we decide to keep:
 
@@ -44,6 +42,15 @@ Here are the columns we decide to keep:
 * Basic team stats: ```side``` ```teamname``` ```teamid```  
 * Team game results: ```result``` ```kills``` ```deaths``` ```assists``` ```firstblood``` ```damagetochampions``` ```towers``` ```opp_towers``` ```firstmidtower``` ```firsttothreetowers```
 * General game resources: ```earnedgold``` ```firstdragon``` ```dragons``` ```opp_dragons``` ```firstherald``` ```elders``` ```opp_elders``` ```firstbaron``` ```barons``` ```opp_barons``` ```opp_barons``` 
+
+This table shows the dataframe after data cleaning:
+
+<iframe 
+src="table/teams_cleaned.html" 
+width=800 
+height=600
+frameBorder=0>
+</iframe>
 
 ### Univariate Analysis
 
