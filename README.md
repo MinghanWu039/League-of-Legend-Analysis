@@ -30,12 +30,19 @@ _Will the choice of side by a team in a game affect the team kills?_
 ### Data Cleaning
 
 1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
+
 2 Drop all columns that are all na values, which is not associated with teams
+
 3 Keep only the columns useful for our analysis
+
 4 Convert ```patch``` to major patch
+
 5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
+
 6 drop rows that the earned gold is less than 0, it should only contain positive value
+
 7 Convert all binary encoded columns to ```bool```
+
 8 Convert all numerical column with integral values to ```int```
 
 Here are the columns we decide to keep:
@@ -155,7 +162,7 @@ This is the DataFrame showing the same distribution:
 <iframe 
 src="table/elder_missingness.html" 
 width=800
-height=600
+height=300
 frameBorder=0>
 </iframe>
 
@@ -240,6 +247,38 @@ We will use (test set) accuracy to evaluate our model, since
 
 ## Baseline Model
 
-Here is a description of the features we use in our baseline model:
+Our baseline model uses logistic regression to predict whether the team will win or lose given the features we select. 
 
-****
+Here is a description of the features we use in our baseline model and what transformations we apply. For this model, all features come from the original dataframe.
+
+### Nominal
+
+We one-hot-encode every categorical column (each time, drop one of the columns generated to avoid colinearity).
+
+This dataframe shows the categorical columns before one-hot-encoding:
+
+### Numerical
+
+We standardize every numerical column.
+
+That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n$$, we let $$X_{std, i}=\frac{X_i-\bar{X}}{SD_X}$$.
+
+This dataframe shows the categorical columns before standardizing:
+
+This dataframe shows the categorical columns after standardizing:
+
+_We do not have any ordinal feature in our selection._
+
+### Model Parameters
+
+For this model, we use default parameters of sklearn.LogisticRegression.
+
+* Penalty: 'l2'
+* tol (tolerance for stopping iteration): 1e-4
+* max_iter: 100
+
+### Model Result
+
+The following dataframe shows the model accuracy:
+
+The following graph is the confusion matrix on the test set:
