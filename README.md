@@ -41,36 +41,36 @@ _Will the choice of side by a team in a game affect the team kills?_
 Here are the columns we decide to keep:
 
 * Basic game stats: 
-** ```game```: the ordinal number of the game in the competition
-** ```gameid```: the game id
-** ```patch``` the major patch number
-** ```gamelength``` the time span of the game in minutes
+    * ```game```: the ordinal number of the game in the competition
+    * ```gameid```: the game id
+    * ```patch``` the major patch number
+    * ```gamelength``` the time span of the game in minutes
 * Basic team stats: 
-** ```side```: the side of the team, blue or red 
-**```teamname```: the team name
-**```teamid```: the team id
+    * ```side```: the side of the team, blue or red 
+    *```teamname```: the team name
+    *```teamid```: the team id
 * Team game results: 
-** ```result```: result of the team in the game
-** ```kills```: the total kills of the team in the game
-** ```deaths```: the total deaths of the team in the game
-** ```assists```: the total assists of the team in the game
-** ```firstblood```: whether the team got first blood
-** ```damagetochampions```: the total damage made to the enemy team
-** ```towers```: the number of towers got by the team
-** ```opp_towers```: the number of towers got by the enemy team
-** ```firstmidtower```: whether the team got the first middle tower
-** ```firsttothreetowers```: whether the team got three towers before the enemy team
+    * ```result```: result of the team in the game
+    * ```kills```: the total kills of the team in the game
+    * ```deaths```: the total deaths of the team in the game
+    * ```assists```: the total assists of the team in the game
+    * ```firstblood```: whether the team got first blood
+    * ```damagetochampions```: the total damage made to the enemy team
+    * ```towers```: the number of towers got by the team
+    * ```opp_towers```: the number of towers got by the enemy team
+    * ```firstmidtower```: whether the team got the first middle tower
+    * ```firsttothreetowers```: whether the team got three towers before the enemy team
 * General game resources: 
-** ```earnedgold```: the total number of gold earned by the team
-** ```firstdragon```: whether the team got the first dragon
-** ```dragons```: the total number of dragons got by the team
-** ```opp_dragons```: the total number of dragons got by the enemy team
-** ```firstherald```: whether the team got the first herald
-** ```elders```: the total number of elders got by the team
-** ```opp_elders```: the total number of elders got by the enemy team
-** ```firstbaron```: whether the team got the first baron
-** ```barons```: the total number of barons got by the team
-** ```opp_barons```: the total number of barons got by the enemy team
+    * ```earnedgold```: the total number of gold earned by the team
+    * ```firstdragon```: whether the team got the first dragon
+    * ```dragons```: the total number of dragons got by the team
+    * ```opp_dragons```: the total number of dragons got by the enemy team
+    * ```firstherald```: whether the team got the first herald
+    * ```elders```: the total number of elders got by the team
+    * ```opp_elders```: the total number of elders got by the enemy team
+    * ```firstbaron```: whether the team got the first baron
+    * ```barons```: the total number of barons got by the team
+    * ```opp_barons```: the total number of barons got by the enemy team
 
 This table shows the first several rows of the dataframe after data cleaning:
 
