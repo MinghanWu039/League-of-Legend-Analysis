@@ -38,17 +38,44 @@ _Will the choice of side by a team in a game affect the team kills?_
 
 Here are the columns we decide to keep:
 
-* Basic game stats: ```gameid``` ```patch``` ```gamelength```
-* Basic team stats: ```side``` ```teamname``` ```teamid```  
-* Team game results: ```result``` ```kills``` ```deaths``` ```assists``` ```firstblood``` ```damagetochampions``` ```towers``` ```opp_towers``` ```firstmidtower``` ```firsttothreetowers```
-* General game resources: ```earnedgold``` ```firstdragon``` ```dragons``` ```opp_dragons``` ```firstherald``` ```elders``` ```opp_elders``` ```firstbaron``` ```barons``` ```opp_barons``` ```opp_barons``` 
+* Basic game stats: 
+** ```game```: the ordinal number of the game in the competition
+** ```gameid```: the game id
+** ```patch``` the major patch number
+** ```gamelength``` the time span of the game in minutes
+* Basic team stats: 
+** ```side```: the side of the team, blue or red 
+**```teamname```: the team name
+**```teamid```: the team id
+* Team game results: 
+** ```result```: result of the team in the game
+** ```kills```: the total kills of the team in the game
+** ```deaths```: the total deaths of the team in the game
+** ```assists```: the total assists of the team in the game
+** ```firstblood```: whether the team got first blood
+** ```damagetochampions```: the total damage made to the enemy team
+** ```towers```: the number of towers got by the team
+** ```opp_towers```: the number of towers got by the enemy team
+** ```firstmidtower```: whether the team got the first middle tower
+** ```firsttothreetowers```: whether the team got three towers before the enemy team
+* General game resources: 
+** ```earnedgold```: the total number of gold earned by the team
+** ```firstdragon```: whether the team got the first dragon
+** ```dragons```: the total number of dragons got by the team
+** ```opp_dragons```: the total number of dragons got by the enemy team
+** ```firstherald```: whether the team got the first herald
+** ```elders```: the total number of elders got by the team
+** ```opp_elders```: the total number of elders got by the enemy team
+** ```firstbaron```: whether the team got the first baron
+** ```barons```: the total number of barons got by the team
+** ```opp_barons```: the total number of barons got by the enemy team
 
-This table shows the dataframe after data cleaning:
+This table shows the first several rows of the dataframe after data cleaning:
 
 <iframe 
 src="table/teams_cleaned.html" 
 width=800 
-height=600
+height=300
 frameBorder=0>
 </iframe>
 
@@ -104,13 +131,13 @@ frameBorder=0>
 
 ### Not Missing at Random (NMAR)
 
-We believe the missingness of ```game``` is NMAR. Upon researching online, we discover that the missingness results largely from the fact that there is only one game in the split in that league and year.
+We believe the missingness of ```game``` (which we dropped in the cleaning process) is NMAR. Upon researching online, we discover that the missingness results largely from the fact that there is only one game in the split in that league and year.
 
 As such, the missing mechanism of ```game``` is NMAR, with value 1 (representing the first game) being significantly more prone to be missing than other values.
 
 ### Missing at Random (MAR)
 
-We believe the missingness of ```elders``` is dependent on ```patch```. To confirm this observation, we run a permutation test on the two columns.
+We believe the missingness of ```elders``` is dependent on ```patch```. To confirm this observation, we run a permutation test on the two columns (using Total Variation Distance (tvd) as statistic).
 
 This is the observed conditional distribution:
 
@@ -145,27 +172,28 @@ Hence we conclude that the missingness of ```elders``` is dependent on ```patch`
 
 ### Missing Completely at Random (MCAR)
 
-We believe the missing mechanism of ```gameid``` is completely at random. To confirm this, we run permutation tests against each every one of other columns. 
+We believe the missing mechanism of ```barons``` is completely at random. To confirm this, we run permutation tests against each every one of other columns. 
 
-For numerical columns, we compute the absolute differences between the missing group and the non-missing group; 
+For numerical columns, we compute the absolute differences between the means of the missing group and the non-missing group; 
 
 For categorical columns, we compute the tvds between the missing group and the non-missing group.
 
 Here is the DataFrame showing our result:
 
 <iframe 
-src="table/gameid_missingness.html" 
+src="table/barons_missingness.html" 
 width=800
 height=400
 frameBorder=0>
 </iframe>
 
-From this, we can see that the missingness of ```gameid``` is independent from the values of other columns, with 99% confidence level.
+From this, we can see that the missingness of ```barons``` is independent from the values of other columns, with 95% confidence level.
 
 ### Handling Missingness
 
-* Listwise delete all rows where ```gameid``` is missing.
-* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $$n$$ ```elders``` values from the rows with the same ```patch```, where $$n$$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category).
+* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $$n$$ ```elders``` values from the rows with the same ```patch```, where $$n$$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category). Note that for those patches where ```elders``` do not exist, the non-missing values are all 0, and hence the imputed values must be 0.
+
+* Listwise delete rows where ```barons``` is missing (delete all rows where ```barons``` is missing), since ```barons``` is missing completely at random.
 
 ## Hypothesis Testing
 
@@ -207,3 +235,6 @@ We will use (test set) accuracy to evaluate our model, since
 * It is a more direct metric for the success of the model
 * We do not have a preference towards false positive / false negative
 * The ```result``` we get after cleaning and imputation has about equal numbers of ```1``` and ```0``` (the percentage of winning is 50.01%)
+
+## Baseline Model
+
