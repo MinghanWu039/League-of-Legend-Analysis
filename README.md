@@ -47,8 +47,8 @@ Here are the columns we decide to keep:
     * ```gamelength``` the time span of the game in minutes
 * Basic team stats: 
     * ```side```: the side of the team, blue or red 
-    *```teamname```: the team name
-    *```teamid```: the team id
+    * ```teamname```: the team name
+    * ```teamid```: the team id
 * Team game results: 
     * ```result```: result of the team in the game
     * ```kills```: the total kills of the team in the game
@@ -77,7 +77,7 @@ This table shows the first several rows of the dataframe after data cleaning:
 <iframe 
 src="table/teams_cleaned.html" 
 width=800 
-height=300
+height=200
 frameBorder=0>
 </iframe>
 
@@ -88,7 +88,7 @@ Here is a histogram showing the distribution of ```gamelength```:
 <iframe 
 src="img/distribution_of_game_length_(min).html" 
 width=800 
-height=600
+height=500
 frameBorder=0>
 </iframe>
 
@@ -127,7 +127,7 @@ In this section, we analyze the missing mechanisms of several of the columns. To
 <iframe 
 src="table/col_missing.html" 
 width=800
-height=300
+height=250
 frameBorder=0>
 </iframe>
 
