@@ -162,7 +162,7 @@ This is the DataFrame showing the same distribution:
 <iframe 
 src="table/elder_missingness.html" 
 width=800
-height=300
+height=400
 frameBorder=0>
 </iframe>
 
@@ -257,6 +257,10 @@ We one-hot-encode every categorical column (each time, drop one of the columns g
 
 This dataframe shows the categorical columns before one-hot-encoding:
 
+### Ordinal
+
+_We do not have any ordinal feature in our selection._
+
 ### Numerical
 
 We standardize every numerical column.
@@ -267,15 +271,13 @@ This dataframe shows the categorical columns before standardizing:
 
 This dataframe shows the categorical columns after standardizing:
 
-_We do not have any ordinal feature in our selection._
-
 ### Model Parameters
 
 For this model, we use default parameters of sklearn.LogisticRegression.
 
-* Penalty: 'l2'
-* tol (tolerance for stopping iteration): 1e-4
-* max_iter: 100
+* Penalty: ```'l2'```
+* tol (tolerance for stopping iteration): ```1e-4```
+* max_iter: ```100```
 
 ### Model Result
 
