@@ -309,8 +309,8 @@ The following graph is the confusion matrix on the test set:
 
 <iframe 
 src="img/confusion_matrix_of_test_data_(baseline_model).html" 
-width=800
-height=600
+width=750
+height=500
 frameBorder=0>
 </iframe>
 
@@ -357,8 +357,8 @@ Here shows the confusion matrix on the test set of the optimal model that we fou
 
 <iframe 
 src="img/confusion_matrix_of_test_data_(final_model).html" 
-width=800
-height=600
+width=750
+height=500
 frameBorder=0>
 </iframe>
 
