@@ -249,16 +249,14 @@ We will use (test set) accuracy to evaluate our model, since
 
 Our baseline model uses logistic regression to predict whether the team will win or lose given the features we select. 
 
-This dataframe shows the first several rows of ```result```, which we are predicting:
+Here is a dataframe showing the features we use in our baseline model. For this model, all features come from the original dataframe.
 
 <iframe 
-src="table/model_y.html" 
+src="table/model_df.html" 
 width=800 
 height=200
 frameBorder=0>
 </iframe>
-
-Here is a description of the features we use in our baseline model and what transformations we apply. For this model, all features come from the original dataframe.
 
 #### Nominal
 
