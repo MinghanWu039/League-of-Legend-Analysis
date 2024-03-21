@@ -249,19 +249,35 @@ We will use (test set) accuracy to evaluate our model, since
 
 Our baseline model uses logistic regression to predict whether the team will win or lose given the features we select. 
 
+This dataframe shows the first several rows of ```result```, which we are predicting:
+
+<iframe 
+src="table/model_y.html" 
+width=800 
+height=200
+frameBorder=0>
+</iframe>
+
 Here is a description of the features we use in our baseline model and what transformations we apply. For this model, all features come from the original dataframe.
 
-### Nominal
+#### Nominal
 
 We one-hot-encode every categorical column (each time, drop one of the columns generated to avoid colinearity).
 
 This dataframe shows the categorical columns before one-hot-encoding:
 
-### Ordinal
+<iframe 
+src="table/baseline_nominal.html" 
+width=800 
+height=200
+frameBorder=0>
+</iframe>
+
+#### Ordinal
 
 _We do not have any ordinal feature in our selection._
 
-### Numerical
+#### Numerical
 
 We standardize every numerical column.
 
@@ -269,7 +285,12 @@ That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n
 
 This dataframe shows the categorical columns before standardizing:
 
-This dataframe shows the categorical columns after standardizing:
+<iframe 
+src="table/baseline_quant.html" 
+width=800 
+height=200
+frameBorder=0>
+</iframe>
 
 ### Model Parameters
 
@@ -283,4 +304,18 @@ For this model, we use default parameters of sklearn.LogisticRegression.
 
 The following dataframe shows the model accuracy:
 
+<iframe 
+src="table/baseline_model_score.html" 
+width=800 
+height=200
+frameBorder=0>
+</iframe>
+
 The following graph is the confusion matrix on the test set:
+
+<iframe 
+src="img/confusion_matrix_of_test_data_(baseline_model).html" 
+width=800 
+height=400
+frameBorder=0>
+</iframe>
