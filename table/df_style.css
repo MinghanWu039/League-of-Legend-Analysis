@@ -29,3 +29,7 @@
 .with_index tbody > tr > th {
     text-align: left;
 }
+
+.with_index thead > tr > th {
+    text-align: left;
+}
