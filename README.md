@@ -249,46 +249,26 @@ We will use (test set) accuracy to evaluate our model, since
 
 Our baseline model uses logistic regression to predict whether the team will win or lose given the features we select. 
 
-Here is a dataframe showing the features we use in our baseline model. For this model, all features come from the original dataframe.
+Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection_). For this model, all features come from the original dataframe.
 
 <iframe 
 src="table/model_df.html" 
 width=800 
-height=200
+height=400
 frameBorder=0>
 </iframe>
+
+Here, we describe what transformation we have applied to each category:
 
 #### Nominal
 
 We one-hot-encode every categorical column (each time, drop one of the columns generated to avoid colinearity).
-
-This dataframe shows the categorical columns before one-hot-encoding:
-
-<iframe 
-src="table/baseline_nominal.html" 
-width=800 
-height=200
-frameBorder=0>
-</iframe>
-
-#### Ordinal
-
-_We do not have any ordinal feature in our selection._
 
 #### Numerical
 
 We standardize every numerical column.
 
 That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n$$, we let $$X_{std, i}=\frac{X_i-\bar{X}}{SD_X}$$.
-
-This dataframe shows the categorical columns before standardizing:
-
-<iframe 
-src="table/baseline_quant.html" 
-width=800 
-height=200
-frameBorder=0>
-</iframe>
 
 ### Model Parameters
 
@@ -317,3 +297,13 @@ width=800
 height=400
 frameBorder=0>
 </iframe>
+
+## Final Model
+
+In this model, we have added derivative columns to the dataframe. 
+
+* ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance.
+* ```soul``` ```opp_soul```: Binary indicator of whether ```dragons```/```opp_dragons``` >= 4. This is important because in later versions, a team gets dragon soul once they get 4 dragons.
+* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which these important data updates.
+
+
