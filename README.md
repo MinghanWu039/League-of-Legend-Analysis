@@ -311,7 +311,7 @@ frameBorder=0>
 
 In this model, we have added derivative columns to the dataframe. 
 
-* ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance.
+* ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance. (If for a row```death``` is 0, we set ```death``` to 1)
 * ```soul``` ```opp_soul```: Binary indicator of whether ```dragons```/```opp_dragons``` >= 4. This is important because in later versions, a team gets dragon soul once they get 4 dragons.
 * ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which these important data updates.
 
