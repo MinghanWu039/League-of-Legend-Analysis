@@ -30,6 +30,6 @@
     text-align: left;
 }
 
-.with_index thead > tr > th {
+.with_index thead > tr > th:nth-child(1) {
     text-align: left;
 }
