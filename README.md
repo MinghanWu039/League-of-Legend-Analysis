@@ -91,7 +91,7 @@ This table shows the first several rows of the dataframe after data cleaning:
 <iframe 
 src="table/teams_cleaned.html" 
 width=800 
-height=250
+height=220
 frameBorder=0>
 </iframe>
 
@@ -270,7 +270,7 @@ Here is a dataframe showing the features we use in our baseline model, separated
 <iframe 
 src="table/model_df.html" 
 width=800 
-height=300
+height=280
 frameBorder=0>
 </iframe>
 
@@ -376,7 +376,7 @@ Here is a summary of the model accuracy of the baseline model and the final mode
 <iframe 
 src="table/model_scores.html" 
 width=800 
-height=150
+height=180
 frameBorder=0>
 </iframe>
 
