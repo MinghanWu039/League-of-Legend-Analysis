@@ -335,7 +335,7 @@ We want to optimize the following parameters:
 * ```max_iter``` 
     > Maximum number of iterations taken for the solvers to converge.
     * Range: $$\{100, 150, 250, 300\}$$
-&ensp;
+    
 * ```solver```
     > Algorithm to use in the optimization problem.
     * Range: \{"lbfgs", "libliear", "newton-cg", "sag", "saga"\}
