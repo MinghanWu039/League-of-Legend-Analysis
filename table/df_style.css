@@ -4,17 +4,28 @@
     border-collapse: collapse; 
     border: 1px solid silver;
 }
+
 .table_style td, th {
     padding: 5px;
 }
+
 .table_style thead {
-    background: rgba(0, 0, 0, 0.15);;
-    /* color: white; */
+    background: rgba(0, 0, 0, 0.15);
 }
+
+.table_style thead > tr > th {
+    text-align: middle;
+}
+
 .table_style tbody > tr:nth-child(even) {
     background: #E0E0E0;
 }
+
 .table_style tr:hover {
     background: silver;
     cursor: pointer;
+}
+
+.with_index tbody > tr > th {
+    text-align: left;
 }
