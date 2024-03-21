@@ -1,6 +1,7 @@
 <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-# _League of Legends Analysis for Game Result Prediction_
+
+# _Analysis for League of Legends Game Result Prediction_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
 **Names:** Rihui Ling and Minghan Wu
@@ -162,7 +163,7 @@ This is the DataFrame showing the same distribution:
 <iframe 
 src="table/elder_missingness.html" 
 width=800
-height=500
+height=400
 frameBorder=0>
 </iframe>
 
@@ -245,7 +246,7 @@ Since p-value we obtain is 0.0, we reject $$H_0$$. This test makes us conclude t
 
 ## Framing a Prediction Problem
 
-We try to obtain a model that predicts whether a team is winning/losing a game, given the data we kept.
+Prediction Problem: We try to obtain a model that predicts whether a team is winning/losing a game, given the data we kept.
 
 This is a binary classification problem.
 
@@ -263,7 +264,7 @@ Here is a dataframe showing the features we use in our baseline model, separated
 <iframe 
 src="table/model_df.html" 
 width=800 
-height=300
+height=250
 frameBorder=0>
 </iframe>
 
@@ -359,7 +360,7 @@ Here the two confusion matrices are shown side by side:
 
 <iframe 
 src="img/model_matrixs.html" 
-width=600
+width=800
 height=400
 frameBorder=0>
 </iframe>
@@ -379,13 +380,13 @@ In this section, we want to explore the consistency of the performance of our mo
 
 We still use accuracy as the metric. 
 
-$$H_0$$: Our model is fair. That is, the accuracy of the final model for blue sides is the same as the accuracy for red sides.
+$$H_0$$: Our model is fair. That is, the accuracy of the final model for blue side is the same as the accuracy for red side.
 
-$$H_1$$: The accuracy of the final model for blue sides is different from teh accuracy for red sides.
+$$H_1$$: The accuracy of the final model for red side is smaller than the accuracy for the blue side.
 
 We run a permutation test to determine which hypothesis is correct:
 
-We use _absolute difference in accuracy_ as the statistic. We compute the observed absolute difference, and simulate the $$H_0$$ distribution by permuting ```side``` 1000 times and compute the absolute difference between the accuracy for "red" side and the accuracy for "blue" side.
+We use _accuracy(blue)-accuracy(red)_ as the statistic. We compute the observed difference, and simulate the $$H_0$$ distribution by permuting ```side``` 1000 times and compute the difference between the accuracy for "blue" side and the accuracy for "red" side.
 
 This dataframe shows the observed statistic:
 
@@ -405,5 +406,5 @@ height=600
 frameBorder=0>
 </iframe>
 
-Since the p-value is 0.265 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 95% confidence level. The difference in observed accuracy is not statistically significant to suggest a difference in performance of our model between blue and red sides.
+Since the p-value is 0.265 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 95% confidence level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
 
