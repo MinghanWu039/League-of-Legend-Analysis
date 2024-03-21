@@ -185,7 +185,7 @@ frameBorder=0>
 </iframe>
 
 We see that the observed tvd $$0.615131$$ is significantly greater than most of 
-the tvd values resulted from distribution. The p-value for the permutation 
+the tvd values resulted from distribution. The _p-value_ for the permutation 
 test is $$0.0$$. 
 
 Hence, we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
@@ -259,7 +259,8 @@ height=500
 frameBorder=0>
 </iframe>
 
-Since p-value we obtain is 0.0, we reject $$H_0$$. This test makes us conclude that more likely that not, the choosing the blue side does increase the expected kills of the team.
+Since _p-value_ we obtain is 0.0, we reject $$H_0$$. This test makes us 
+conclude that more likely that not, the choosing the blue side does increase the expected kills of the team.
 
 ## Framing a Prediction Problem
 
@@ -438,5 +439,6 @@ height=500
 frameBorder=0>
 </iframe>
 
-Since the p-value is 0.265 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 95% confidence level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
+Since the _p-value_ is 0.265 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 
+95% confidence level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
 
