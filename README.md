@@ -11,11 +11,11 @@
 
 Our dataset is on all of the professional League of Legends games between 2014 and 2024 (inclusive).
 The dataset contains one row per game per team (so two rows per game). The game data is comprehensive of most aspects of the game. Our cleaned game data has ```131414 rows × 27 columns```.
-In this report, we discuss one question to perform hypothesis test on, and one prediction problem.
+In this report, we discuss one question, and one prediction problem.
 
-*Hypotheses:*
+*Question to Answer:*
 
-In the history of LoL, the choice of side (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. For this reason, we put forth this question:
+In the history of LoL, the choice of side (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. If this is true, then the result of game largely depends on luck -- the team on the blue side has a significant advantage. For this reason, we put forth this question:
 
 _Will the choice of side by a team in a game affect the team kills?_
 
@@ -23,30 +23,18 @@ _Will the choice of side by a team in a game affect the team kills?_
 
 * $$H_1$$: The blue side has higher expected team kills than the red side.
 
-*Prediction Problem:*
+After that, we will come up with model(s) for the following prediction problem:
+
+*Prediction Problem*
 * Predict whether a team is winning/losing a game, given other data.
 
-## Data Cleaning and Exploratory Data Analysis
+While much of the data we have is only available post game, such a model can indicate what factors are important for winning a LoL game.
 
-### Data Cleaning
+### Data
 
-1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
+Our raw data has 149666 rows × 130 columns. Most of the columns are of little or no help for our analysis. 
 
-2 Drop all columns that are all na values, which is not associated with teams
-
-3 Keep only the columns useful for our analysis
-
-4 Convert ```patch``` to major patch
-
-5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
-
-6 drop rows that the earned gold is less than 0, it should only contain positive value
-
-7 Convert all binary encoded columns to ```bool```
-
-8 Convert all numerical column with integral values to ```int```
-
-Here are the columns we decide to keep:
+Here lists the columns we decide to keep along with their description:
 
 * Basic game stats: 
     * ```game```: the ordinal number of the game in the competition
@@ -79,6 +67,26 @@ Here are the columns we decide to keep:
     * ```firstbaron```: whether the team got the first baron
     * ```barons```: the total number of barons got by the team
     * ```opp_barons```: the total number of barons got by the enemy team
+
+## Data Cleaning and Exploratory Data Analysis
+
+### Data Cleaning
+
+1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
+
+2 Drop all columns that are all na values, which is not associated with teams
+
+3 Keep only the columns useful for our analysis
+
+4 Convert ```patch``` to major patch
+
+5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
+
+6 drop rows that the earned gold is less than 0, it should only contain positive value
+
+7 Convert all binary encoded columns to ```bool```
+
+8 Convert all numerical column with integral values to ```int```
 
 This table shows the first several rows of the dataframe after data cleaning:
 
