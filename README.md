@@ -10,7 +10,8 @@
 ## Introduction
 
 Our dataset is on all of the professional League of Legends games between 2014 and 2024 (inclusive).
-The dataset contains one row per game per team (so two rows per game). The game data is comprehensive of most aspects of the game. Our cleaned game data has ```131414 rows × 27 columns```.
+The dataset contains one row per game per team (so two rows per game). The 
+game data is comprehensive of most aspects of the game. Our cleaned game data has ```148989 rows × 26 columns```.
 In this report, we discuss one question, and one prediction problem.
 
 *Question to Answer:*
@@ -32,7 +33,7 @@ While much of the data we have is only available post game, such a model can ind
 
 ### Data
 
-Our raw data has 149666 rows × 130 columns. Most of the columns are of little or no help for our analysis. 
+Our raw data has ```897996 rows × 130 columns```. Most of the columns are of little or no help for our analysis. 
 
 Here lists the columns we decide to keep along with their description:
 
@@ -93,7 +94,8 @@ src="table/teams_cleaned.html"
 width=800 
 height=220
 frameBorder=0>
-</iframe>
+</iframe>  
+** _Cleaned DataFrame Shape: ```148989 rows × 26 columns```_
 
 ### Univariate Analysis
 
@@ -182,9 +184,11 @@ height=500
 frameBorder=0>
 </iframe>
 
-We see that the observed tvd 1.2765 is significantly greater than most of the tvd values resulted from distribution. The p-value for the permutation test is 0.0. 
+We see that the observed tvd $$0.615131$$ is significantly greater than most of 
+the tvd values resulted from distribution. The p-value for the permutation 
+test is $$0.0$$. 
 
-Hence we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
+Hence, we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
 
 ### Missing Completely at Random (MCAR)
 
@@ -205,13 +209,20 @@ frameBorder=0>
 
 From this, we can see that the missingness of ```barons``` is independent from the values of other columns, with 95% confidence level.
 
-### Handling Missingness
+### Handling Missingness (Imputation)
 
 * Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $$n$$ ```elders``` values from the rows with the same ```patch```, where $$n$$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category). Note that for those patches where ```elders``` do not exist, the non-missing values are all 0, and hence the imputed values must be 0.
 
 * Listwise delete rows where ```barons``` is missing (delete all rows where ```barons``` is missing), since ```barons``` is missing completely at random.
 
 ## Hypothesis Testing
+
+[//]: # (TODO)
+As mentioned in the introduction, in the history of LoL, the choice of side 
+(blue or red) is often believed to have an influence on the team winning rate, 
+with the blue side having a greater chance of winning. In this section, we 
+want to test out will the kills, which is high correlated with win rate, for 
+each side is having significant difference.
 
 Question: _Will the choice of side by a team in a game affect the team kills?_
 
@@ -259,13 +270,15 @@ This is a binary classification problem.
 We will use (test set) accuracy to evaluate our model, since 
 * It is a more direct metric for the success of the model
 * We do not have a preference towards false positive / false negative
-* The ```result``` we get after cleaning and imputation has about equal numbers of ```1``` and ```0``` (the percentage of winning is 50.01%)
+* The ```result``` we get after cleaning and imputation has about equal 
+  numbers of ```1``` and ```0``` (the percentage of _winning_ is $$50.01%$$)
 
 ## Baseline Model
 
 Our baseline model uses _logistic regression_ to predict whether the team will win or lose given the features we select. 
 
-Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection_). For this model, all features come from the original dataframe.
+Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection_). 
+For this model, all features come from the cleaned dataframe after imputation.
 
 <iframe 
 src="table/model_df.html" 
@@ -290,9 +303,11 @@ That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n
 
 For this model, we use default parameters of sklearn.LogisticRegression.
 
+[//]: # (TODO: 是否要写penalty)
 * Penalty: ```'l2'```
 * tol (tolerance for stopping iteration): ```1e-4```
 * max_iter: ```100```
+* solver: ```lbfgs```
 
 ### Model Result
 
@@ -319,8 +334,12 @@ frameBorder=0>
 In this model, we have added derivative columns to the dataframe. 
 
 * ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance. (If for a row```death``` is 0, we set ```death``` to 1)
-* ```soul``` ```opp_soul```: Binary indicator of whether ```dragons```/```opp_dragons``` >= 4. This is important because in later versions, a team gets dragon soul once they get 4 dragons.
+* ```soul``` ```opp_soul```: Binary indicator of whether 
+  $$```dragons```/```opp_dragons``` >= 4$$. This is important because in later 
+  patch, a team gets dragon soul buff once they get 4 dragons.
 * ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which these important data updates.
+
+[//]: # (TODO: 我没看懂per min, "rate at which these important data updates")
 
 For the final model, we decide to stick to logistic regression. 
 
@@ -338,7 +357,10 @@ We want to optimize the following parameters:
     > Algorithm to use in the optimization problem.
     * Range: \{"lbfgs", "libliear", "newton-cg", "sag", "saga"\}
 
-Since ```tol``` (Tolerance for stopping criteria) is highly related to ```max_iter```, we do not optimize it. Instead, we set it to be $$10^{-8}$$ (or ```1e^-8```).
+Since ```tol``` (Tolerance for stopping criteria) is highly related to 
+```max_iter```, we do not optimize it. Instead, we keep it as default 
+$$10^{-4}$$ 
+(or ```1e^-4```).
 
 To determine the best combination, we use GridSearchCV to perform a grid search (comparing all combinations of ```max_iter``` and ```solver```) with 5-fold cross-validations on the training set.
 
@@ -382,13 +404,17 @@ frameBorder=0>
 
 ## Fairness Analysis
 
-In this section, we want to explore the consistency of the performance of our model for red and blue sides.
+In this section, we want to explore the consistency of the performance of 
+our model for red and blue sides. We want to find out does the final model 
+achieve accuracy parity for blue and red sides, which are the difference in 
+accuracy is due to randomness?
 
 We still use accuracy as the metric. 
 
 $$H_0$$: Our model is fair. That is, the accuracy of the final model for blue side is the same as the accuracy for red side.
 
-$$H_1$$: The accuracy of the final model for red side is smaller than the accuracy for the blue side.
+$$H_1$$: The accuracy of the final model for blue side is smaller than the 
+accuracy for the red side.
 
 We run a permutation test to determine which hypothesis is correct:
 
