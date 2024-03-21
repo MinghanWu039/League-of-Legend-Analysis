@@ -1,7 +1,7 @@
 <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-
-# _Analysis for League of Legends Game Result Prediction_
+# League of Legends
+## _Analysis for Game Result Prediction_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
 **Names:** Rihui Ling and Minghan Wu
