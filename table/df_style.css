@@ -14,7 +14,7 @@
 }
 
 .table_style thead > tr > th {
-    text-align: middle;
+    text-align: center;
 }
 
 .table_style tbody > tr:nth-child(even) {

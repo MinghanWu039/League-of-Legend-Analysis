@@ -56,7 +56,7 @@ Here are the columns we decide to keep:
     * ```side```: the side of the team, blue or red 
     * ```teamname```: the team name
     * ```teamid```: the team id
-* Team game results: 
+* Team game stats: 
     * ```result```: result of the team in the game
     * ```kills```: the total kills of the team in the game
     * ```deaths```: the total deaths of the team in the game
@@ -67,8 +67,8 @@ Here are the columns we decide to keep:
     * ```opp_towers```: the number of towers got by the enemy team
     * ```firstmidtower```: whether the team got the first middle tower
     * ```firsttothreetowers```: whether the team got three towers before the enemy team
-* General game resources: 
     * ```earnedgold```: the total number of gold earned by the team
+* General game resources: 
     * ```firstdragon```: whether the team got the first dragon
     * ```dragons```: the total number of dragons got by the team
     * ```opp_dragons```: the total number of dragons got by the enemy team
