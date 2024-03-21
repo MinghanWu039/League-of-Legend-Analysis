@@ -247,14 +247,14 @@ We will use (test set) accuracy to evaluate our model, since
 
 ## Baseline Model
 
-Our baseline model uses logistic regression to predict whether the team will win or lose given the features we select. 
+Our baseline model uses _logistic regression_ to predict whether the team will win or lose given the features we select. 
 
 Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection_). For this model, all features come from the original dataframe.
 
 <iframe 
 src="table/model_df.html" 
 width=800 
-height=400
+height=300
 frameBorder=0>
 </iframe>
 
@@ -285,7 +285,7 @@ The following dataframe shows the model accuracy:
 <iframe 
 src="table/baseline_model_score.html" 
 width=800 
-height=200
+height=150
 frameBorder=0>
 </iframe>
 
@@ -293,7 +293,7 @@ The following graph is the confusion matrix on the test set:
 
 <iframe 
 src="img/confusion_matrix_of_test_data_(baseline_model).html" 
-width=800 
+width=600
 height=400
 frameBorder=0>
 </iframe>
@@ -305,5 +305,64 @@ In this model, we have added derivative columns to the dataframe.
 * ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance.
 * ```soul``` ```opp_soul```: Binary indicator of whether ```dragons```/```opp_dragons``` >= 4. This is important because in later versions, a team gets dragon soul once they get 4 dragons.
 * ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which these important data updates.
+
+For the final model, we decide to stick to logistic regression. 
+
+In order for the model to be fairly comparable to the baseline model, we use the same training set and test set as before.
+
+### Best Parameters
+
+We want to optimize the following parameters:
+
+* ```max_iter``` 
+    > Maximum number of iterations taken for the solvers to converge.
+    * Range: $$\{100, 150, 250, 300\}$$
+* ```solver```
+    > Algorithm to use in the optimization problem.
+    * Range: \{"lbfgs", "libliear", "newton-cg", "sag", "saga"\}
+
+Since ```tol``` (Tolerance for stopping criteria) is highly related to ```max_iter```, we do not optimize it. Instead, we set it to be $$10^{-8}$$ (or ```1e^-8```).
+
+To determine the best combination, we use GridSearchCV to perform a grid search (comparing all combinations of ```max_iter``` and ```solver```) with 5-fold cross-validations on the training set.
+
+This is the result of GridSearchCV:
+
+<iframe 
+src="table/hypermeters.html" 
+width=800 
+height=600
+frameBorder=0>
+</iframe>
+
+From this process, we conclude that the best parameter combination is ```max_iter = 100``` and ```solver = "newton-cg"```.
+
+Here shows the confusion matrix on the test set of the optimal model that we found:
+
+<iframe 
+src="img/confusion_matrix_of_test_data_(final_model).html" 
+width=600
+height=400
+frameBorder=0>
+</iframe>
+
+Here the two confusion matrices are shown side by side:
+
+<iframe 
+src="img/model_matrix.html" 
+width=600
+height=400
+frameBorder=0>
+</iframe>
+
+Here is a summary of the model accuracy of the baseline model and the final model.
+
+<iframe 
+src="table/model_scores.html" 
+width=800 
+height=200
+frameBorder=0>
+</iframe>
+
+## Fairness Analysis
 
 
