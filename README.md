@@ -163,7 +163,7 @@ This is the DataFrame showing the same distribution:
 <iframe 
 src="table/elder_missingness.html" 
 width=800
-height=400
+height=450
 frameBorder=0>
 </iframe>
 
@@ -328,6 +328,7 @@ We want to optimize the following parameters:
     > Maximum number of iterations taken for the solvers to converge.
     * Range: $$\{100, 150, 250, 300\}$$
 
+\\
 * ```solver```
     > Algorithm to use in the optimization problem.
     * Range: \{"lbfgs", "libliear", "newton-cg", "sag", "saga"\}
