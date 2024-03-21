@@ -1,6 +1,6 @@
 <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-# _League of Legends Analysis_
+# _League of Legends Analysis for Game Result Prediction_
  *This is DSC 80 Project 4 where we clean, explore, and make predictions upon, League of Legends game data. This website stands as a report of our findings.*
 
 **Names:** Rihui Ling and Minghan Wu
@@ -162,7 +162,7 @@ This is the DataFrame showing the same distribution:
 <iframe 
 src="table/elder_missingness.html" 
 width=800
-height=400
+height=500
 frameBorder=0>
 </iframe>
 
@@ -358,7 +358,7 @@ frameBorder=0>
 Here the two confusion matrices are shown side by side:
 
 <iframe 
-src="img/model_matrix.html" 
+src="img/model_matrixs.html" 
 width=600
 height=400
 frameBorder=0>
