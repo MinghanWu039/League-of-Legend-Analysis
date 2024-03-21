@@ -221,6 +221,15 @@ height=600
 frameBorder=0>
 </iframe>
 
+This dataframe shows the observed data:
+
+<iframe 
+src="table/kills_observed.html" 
+width=800
+height=150
+frameBorder=0>
+</iframe>
+
 We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic _average kills blue - average kills red_.
 
 Below is a graph showing the distribution of the test tatistic according to $$H_0$$ and our observed statistic:
@@ -285,7 +294,7 @@ The following dataframe shows the model accuracy:
 <iframe 
 src="table/baseline_model_score.html" 
 width=800 
-height=150
+height=100
 frameBorder=0>
 </iframe>
 
@@ -317,6 +326,7 @@ We want to optimize the following parameters:
 * ```max_iter``` 
     > Maximum number of iterations taken for the solvers to converge.
     * Range: $$\{100, 150, 250, 300\}$$
+
 * ```solver```
     > Algorithm to use in the optimization problem.
     * Range: \{"lbfgs", "libliear", "newton-cg", "sag", "saga"\}
@@ -330,7 +340,7 @@ This is the result of GridSearchCV:
 <iframe 
 src="table/hypermeters.html" 
 width=800 
-height=600
+height=500
 frameBorder=0>
 </iframe>
 
@@ -359,10 +369,41 @@ Here is a summary of the model accuracy of the baseline model and the final mode
 <iframe 
 src="table/model_scores.html" 
 width=800 
-height=200
+height=150
 frameBorder=0>
 </iframe>
 
 ## Fairness Analysis
 
+In this section, we want to explore the consistency of the performance of our model for red and blue sides.
+
+We still use accuracy as the metric. 
+
+$$H_0$$: Our model is fair. That is, the accuracy of the final model for blue sides is the same as the accuracy for red sides.
+
+$$H_1$$: The accuracy of the final model for blue sides is different from teh accuracy for red sides.
+
+We run a permutation test to determine which hypothesis is correct:
+
+We use _absolute difference in accuracy_ as the statistic. We compute the observed absolute difference, and simulate the $$H_0$$ distribution by permuting ```side``` 1000 times and compute the absolute difference between the accuracy for "red" side and the accuracy for "blue" side.
+
+This dataframe shows the observed statistic:
+
+<iframe 
+src="table/fairness_observed.html" 
+width=800 
+height=150
+frameBorder=0>
+</iframe>
+
+This graph shows the result of the permutation test:
+
+<iframe 
+src="img/distribution_of_difference_in_accuracy.html" 
+width=800
+height=600
+frameBorder=0>
+</iframe>
+
+Since the p-value is 0.265 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 95% confidence level. The difference in observed accuracy is not statistically significant to suggest a difference in performance of our model between blue and red sides.
 
