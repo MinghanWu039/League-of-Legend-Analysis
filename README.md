@@ -37,26 +37,24 @@ Our raw data has 149666 rows × 130 columns. Most of the columns are of little o
 Here lists the columns we decide to keep along with their description:
 
 * Basic game stats: 
-    * ```game```: the ordinal number of the game in the competition
     * ```gameid```: the game id
+    * ```game```: the ordinal number of the game in the competition
     * ```patch``` the major patch number
     * ```gamelength``` the time span of the game in minutes
-* Basic team stats: 
-    * ```side```: the side of the team, blue or red 
-    * ```teamname```: the team name
-    * ```teamid```: the team id
 * Team game stats: 
+    * ```side```: the side of the team, blue or red
     * ```result```: result of the team in the game
     * ```kills```: the total kills of the team in the game
     * ```deaths```: the total deaths of the team in the game
     * ```assists```: the total assists of the team in the game
     * ```firstblood```: whether the team got first blood
     * ```damagetochampions```: the total damage made to the enemy team
+    * ```earnedgold```: the total number of gold earned by the team
+    * ```firsttower```: whether the team got the first tower
     * ```towers```: the number of towers got by the team
     * ```opp_towers```: the number of towers got by the enemy team
     * ```firstmidtower```: whether the team got the first middle tower
     * ```firsttothreetowers```: whether the team got three towers before the enemy team
-    * ```earnedgold```: the total number of gold earned by the team
 * General game resources: 
     * ```firstdragon```: whether the team got the first dragon
     * ```dragons```: the total number of dragons got by the team
@@ -93,7 +91,7 @@ This table shows the first several rows of the dataframe after data cleaning:
 <iframe 
 src="table/teams_cleaned.html" 
 width=800 
-height=200
+height=250
 frameBorder=0>
 </iframe>
 
@@ -162,7 +160,7 @@ This is the observed conditional distribution:
 <iframe 
 src="img/distribution_of_patch_by_missingness_of_elders.html" 
 width=800
-height=600
+height=500
 frameBorder=0>
 </iframe>
 
@@ -180,7 +178,7 @@ After running the permutation and computing Total Variation Distance (TVD) 500 t
 <iframe 
 src="img/permutation_test_of_the_missingness_of_elders_depend_on_patch.html" 
 width=800
-height=600
+height=500
 frameBorder=0>
 </iframe>
 
@@ -246,7 +244,7 @@ Below is a graph showing the distribution of the test tatistic according to $$H_
 <iframe 
 src="img/distribution_of_difference_in_mean_(kills).html" 
 width=800
-height=600
+height=500
 frameBorder=0>
 </iframe>
 
@@ -272,7 +270,7 @@ Here is a dataframe showing the features we use in our baseline model, separated
 <iframe 
 src="table/model_df.html" 
 width=800 
-height=250
+height=300
 frameBorder=0>
 </iframe>
 
@@ -311,8 +309,8 @@ The following graph is the confusion matrix on the test set:
 
 <iframe 
 src="img/confusion_matrix_of_test_data_(baseline_model).html" 
-width=600
-height=400
+width=800
+height=600
 frameBorder=0>
 </iframe>
 
@@ -359,8 +357,8 @@ Here shows the confusion matrix on the test set of the optimal model that we fou
 
 <iframe 
 src="img/confusion_matrix_of_test_data_(final_model).html" 
-width=600
-height=400
+width=800
+height=600
 frameBorder=0>
 </iframe>
 
@@ -369,7 +367,7 @@ Here the two confusion matrices are shown side by side:
 <iframe 
 src="img/model_matrixs.html" 
 width=800
-height=400
+height=450
 frameBorder=0>
 </iframe>
 
@@ -410,7 +408,7 @@ This graph shows the result of the permutation test:
 <iframe 
 src="img/distribution_of_difference_in_accuracy.html" 
 width=800
-height=600
+height=500
 frameBorder=0>
 </iframe>
 
