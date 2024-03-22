@@ -71,21 +71,21 @@ Here lists the columns we decide to keep along with their description:
 
 ### Data Cleaning
 
-1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
+_1_ We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
 
-2 Drop all columns that are all na values, which is not associated with teams
+_2_ Drop rows that the earned gold is less than or equal to 0, since it should only contain non-negative value and value 0 indicates very short game length.
 
-3 Keep only the columns useful for our analysis
+_3_ Convert ```patch``` to major patch
 
-4 Convert ```patch``` to major patch
+_4_ Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
 
-5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
+_5_ Keep only the columns useful for our analysis
 
-6 drop rows that the earned gold is less than 0, it should only contain positive value
+_6_ Convert all binary encoded columns to ```bool```
 
-7 Convert all binary encoded columns to ```bool```
+_7_ Convert all numerical column with integral values to ```int```
 
-8 Convert all numerical column with integral values to ```int```
+We follow these steps so that only data that is reasonable and helpful for our analysis is kept. This makes the following analysis easier and less influenced by irrelevant information.
 
 This table shows the first several rows of the dataframe after data cleaning:
 
@@ -134,7 +134,7 @@ height=400
 frameBorder=0>
 </iframe>
 
-We can see that for each year, the difference between average team kills for won teams and lost teams are around 10. Also, the average team kills for both won teams and lost teams increased significantly since 2021.
+We can see that for each year, the difference between average team kills for won teams and lost teams are around 10 (so ```kills``` and ```result``` are strongly related). Also, the average team kills for both won teams and lost teams increased significantly since 2021.
 
 ## Missingness Mechanisms
 
@@ -149,7 +149,7 @@ frameBorder=0>
 
 ### Not Missing at Random (NMAR)
 
-We believe the missingness of ```game``` (which we dropped in the cleaning process) is NMAR. Upon researching online, we discover that the missingness results largely from the fact that there is only one game in the split in that league and year.
+We believe the missingness of ```game``` is NMAR. Upon researching online, we discover that the missingness results largely from the fact that there is only one game in the split in that league and year.
 
 As such, the missing mechanism of ```game``` is NMAR, with value 1 (representing the first game) being significantly more prone to be missing than other values.
 
@@ -186,13 +186,12 @@ height=500
 frameBorder=0>
 </iframe>
 
-We see that the observed tvd $$0.615131$$ is significantly greater than most of 
-the tvd values resulted from distribution. The _p-value_ for the permutation 
+We see that the observed tvd $$0.615131$$ is significantly greater than all tvd values from the distribution. The _p-value_ for the permutation 
 test is $$0.0$$. 
 
 Hence, we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
 
-After running the same test on the missingness of ```opp_elders```, we find the pattern similar (which is expected because it is inherently in pairs with ```elders```)
+After running the same test on the missingness of ```opp_elders```, we find the same pattern (which is expected because it is inherently in pairs with ```elders```)
 
 
 ### Missing Completely at Random (MCAR)
@@ -220,7 +219,7 @@ After running the same test on the missingness of ```opp_barons```, we got the s
 
 ### Handling Missingness (Imputation)
 
-* Use ```patch``` to conditionally impute missing ```elders```. We use ```np.random.choice``` to randomly select $$n$$ ```elders``` values from the rows with the same ```patch```, where $$n$$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category). Note that for those patches where ```elders``` do not exist, the non-missing values are all 0, and hence the imputed values must be 0.
+* Perform probabilistic imputation on missing ```elders``` conditional on ```patch```. We use ```np.random.choice``` to randomly select $$n$$ ```elders``` values from the rows with the same ```patch```, where $$n$$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category). Note that for those patches where ```elders``` do not exist, the non-missing values are all 0, and hence the imputed values must be 0.
 
 * Listwise delete rows where ```barons``` is missing (delete all rows where ```barons``` is missing), since ```barons``` is missing completely at random.
 
@@ -232,11 +231,15 @@ with the blue side having a greater chance of winning. In this section, we
 want to test out will the kills, which is high correlated with win rate, for 
 each side is having significant difference.
 
-Question: _Will the choice of side by a team in a game affect the team kills?_
+Question: _Will the of side by a team in a game affect the team kills?_
 
 * $$H_0$$: The blue side has the same expected team kills as the red side.
 
 * $$H_1$$: The blue side has higher expected team kills than the red side.
+
+* Test statistic: _average kills blue - average kills red_
+
+* Significance level: 5%
 
 Here is a graph showing the overlaying distributions of red-side kills and blue-side kills:
 
@@ -256,9 +259,9 @@ height=150
 frameBorder=0>
 </iframe>
 
-We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic _average kills blue - average kills red_.
+We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic .
 
-Below is a graph showing the distribution of the test tatistic according to $$H_0$$ and our observed statistic:
+Below is a graph showing the distribution of the test tatistic according to $$H_0$$ and our observed statistic.
 
 <iframe 
 src="img/distribution_of_difference_in_mean_(kills).html" 
@@ -267,8 +270,8 @@ height=500
 frameBorder=0>
 </iframe>
 
-Since _p-value_ we obtain is 0.0, we reject $$H_0$$. This test makes us 
-conclude that more likely that not, the choosing the blue side does increase the expected kills of the team.
+Since _p-value_ we obtain is 0.0 and $$0.0<0.05$$, we reject $$H_0$$. This test makes us 
+conclude that more likely than not, the team being on the blue side does increase the expected kills of the team.
 
 ## Framing a Prediction Problem
 
@@ -284,7 +287,7 @@ We will use (test set) accuracy to evaluate our model, since
 
 ## Baseline Model
 
-Our baseline model uses _logistic regression_ to predict whether the team will win or lose given the features we select. 
+Our baseline model uses _logistic regression_ to predict whether the team will win or lose given the 22 features we select. 
 
 Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical). 
 
@@ -301,9 +304,13 @@ Here, we describe what transformation we have applied to each category:
 
 **Nominal**
 
+We have 8 nominal columns. 
+
 We one-hot-encode every categorical column (each time, drop one of the columns generated to avoid colinearity).
 
 **Numerical**
+
+We have 14 numerical columns.
 
 We standardize every numerical column.
 
@@ -343,23 +350,25 @@ height=500
 frameBorder=0>
 </iframe>
 
+We believe this model is effective, based on the high accuracy it gets.
+
 ## Final Model
 
-In this model, we have added derivative columns to the dataframe. 
+In this model, we have added derivative features to the dataframe, together with the original 22 features. The final model has 30 features in total.
 
-* ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance. (If for a row```death``` is 0, we set ```death``` to 1)
+* ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$ (If for a row```death``` is 0, we set ```death``` to 1). This is a commonly used measure for team performance. It takes into account the ratio of kills and assists to deaths.
 * ```soul``` ```opp_soul```: Binary indicator of whether 
   ```dragons```/```opp_dragons``` is greater than or equal to 4. This is important because in later 
   patch, a team gets dragon soul buff once they get 4 dragons.
-* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which the data changes in the game.
+* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns divided by ```gamelength```. This can be helpful because they indicate the rate at which the data changes in the game.
 
 For the final model, we decide to stick to logistic regression. 
 
 In order for the model to be fairly comparable to the baseline model, we use the same training set and test set as before.
 
-### Best Parameters
+### Best Hypermeters
 
-We want to optimize the following parameters:
+We want to optimize the following hypermeters:
 
 * ```max_iter``` 
     > Maximum number of iterations taken for the solvers to converge.
@@ -385,11 +394,11 @@ height=500
 frameBorder=0>
 </iframe>
 
-From this process, we conclude that the best parameter combination is 
+From this process, we conclude that the best parameter combination is
 
-```max_iter = 100``` and 
+* ```max_iter = 100```
 
-```solver = "newton-cg"```.
+* ```solver = "newton-cg"```.
 
 Here shows the confusion matrix on the test set of the optimal model that we found:
 
@@ -409,7 +418,7 @@ height=450
 frameBorder=0>
 </iframe>
 
-Here is a summary of the model accuracy of the baseline model and the final model.
+Here is a summary of the model accuracy of the baseline model and the final model. There is a slight improvement compared to the baseline model.
 
 <iframe 
 src="table/model_scores.html" 
@@ -420,21 +429,29 @@ frameBorder=0>
 
 ## Fairness Analysis
 
-In this section, we want to explore the consistency of the performance of 
-our model for red and blue sides. We want to find out does the final model 
-achieve accuracy parity for blue and red sides, which are the difference in 
-accuracy is due to randomness?
+Could our model perform worse for blue or red side due to the fact that they start in slightly different positions?
 
-We still use accuracy as the metric. 
+In this section, we want to explore the consistency of the performance of 
+our model for red and blue sides. We want to find out whether the final model 
+achieve accuracy parity for blue and red sides. i.e. is the difference in 
+accuracy due to randomness?
+
+_Two Groups:_ blue side and red side
 
 $$H_0$$: Our model is fair. That is, the accuracy of the final model for blue side is the same as the accuracy for red side.
 
 $$H_1$$: The accuracy of the final model for blue side is smaller than the 
 accuracy for the red side.
 
+_Test Statistic:_ $$accuracy(blue)-accuracy(red)$$
+
+_Significance Level_: 5%
+
+_Evaluation Metric_: accuracy
+
 We run a permutation test to determine which hypothesis is correct:
 
-We use _accuracy(blue)-accuracy(red)_ as the statistic. We compute the observed difference, and simulate the $$H_0$$ distribution by permuting ```side``` 1000 times and compute the difference between the accuracy for "blue" side and the accuracy for "red" side.
+We compute the observed difference, and simulate the $$H_0$$ distribution by permuting ```side``` 1000 times and compute the difference between the accuracy for "blue" side and the accuracy for "red" side.
 
 This dataframe shows the observed statistic:
 
@@ -455,5 +472,5 @@ frameBorder=0>
 </iframe>
 
 Since the _p-value_ is 0.294 and $$0.294>0.05$$, we fail to reject $$H_0$$ at 
-95% confidence level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
+5% significance level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
 
