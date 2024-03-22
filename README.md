@@ -190,6 +190,8 @@ test is $$0.0$$.
 
 Hence, we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
 
+However, we believe the missingness is not NMAR because there is no reason why the missingness of ```elders``` is dependent on the (missing) values themselves.
+
 ### Missing Completely at Random (MCAR)
 
 We believe the missing mechanism of ```barons``` is completely at random. To confirm this, we run permutation tests against each every one of other columns. 
@@ -207,7 +209,9 @@ height=400
 frameBorder=0>
 </iframe>
 
-From this, we can see that the missingness of ```barons``` is independent from the values of other columns, with 95% confidence level.
+From this, we can see that the missingness of ```barons``` is independent from the values of other columns, with 95% confidence level. 
+
+(Some p-values are close to 1, this is because the number of missing ```barons``` is very few.)
 
 ### Handling Missingness (Imputation)
 
@@ -278,7 +282,7 @@ We will use (test set) accuracy to evaluate our model, since
 
 Our baseline model uses _logistic regression_ to predict whether the team will win or lose given the features we select. 
 
-Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection_). 
+Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection, since no categorical column has more than 3 values that have an inherent order_). 
 For this model, all features come from the cleaned dataframe after imputation.
 
 <iframe 
@@ -304,7 +308,6 @@ That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n
 
 For this model, we use default parameters of sklearn.LogisticRegression.
 
-[//]: # (TODO: 是否要写penalty)
 * Penalty: ```'l2'```
 * tol (tolerance for stopping iteration): ```1e-4```
 * max_iter: ```100```
@@ -338,7 +341,7 @@ In this model, we have added derivative columns to the dataframe.
 * ```soul``` ```opp_soul```: Binary indicator of whether 
   $$```dragons```/```opp_dragons``` >= 4$$. This is important because in later 
   patch, a team gets dragon soul buff once they get 4 dragons.
-* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which these important data updates.
+* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which the data increases in the game.
 
 [//]: # (TODO: 我没看懂per min, "rate at which these important data updates")
 
