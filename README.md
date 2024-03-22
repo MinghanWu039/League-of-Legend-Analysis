@@ -431,7 +431,7 @@ height=500
 frameBorder=0>
 </iframe>
 
-### Improvement of final model
+### Improvement of Final Model
 
 Here is a summary of the model accuracy of the baseline model and the final model. There is a slight improvement compared to the baseline model.
 
