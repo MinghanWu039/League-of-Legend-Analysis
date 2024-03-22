@@ -16,7 +16,7 @@ In this report, we discuss one question, and one prediction problem.
 
 *Question to Answer:*
 
-In the history of LoL, the choice of side (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. If this is true, then the result of game largely depends on luck -- the team on the blue side has a significant advantage. For this reason, we put forth this question:
+In the history of LoL, the choice of side (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. If this is true, then the result of game largely depends on luck -- the team on the blue side has a significant advantage -- and hence the outcome of one game does not necessarily reflect the strength of a team. For this reason, we put forth this question:
 
 _Will the choice of side by a team in a game affect the team kills?_
 
