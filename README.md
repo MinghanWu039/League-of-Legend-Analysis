@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Our dataset is on all of the professional League of Legends games between 2014 and 2024 (inclusive).
+Our dataset is on all the professional League of Legends games between 2014 and 2024 (inclusive).
 The dataset contains one row per game per team (so two rows per game). The 
 game data is comprehensive of most aspects of the game. Our cleaned game data has ```148989 rows × 26 columns```.
 In this report, we discuss one question, and one prediction problem.
@@ -86,7 +86,7 @@ _6_ Convert all binary encoded columns to ```bool```
 _7_ Convert all numerical column with integral values to ```int```
 
 We follow these steps so only team data is kept, which all alysis is based 
-on team. Moreover, remove those extreme value will improve the significant 
+on team. Moreover, remove those extreme value will improve the significance 
 of the analysis.
 
 This table shows the first several rows of the dataframe after data cleaning:
@@ -213,7 +213,7 @@ height=400
 frameBorder=0>
 </iframe>
 
-From this, we can see that the missingness of ```barons``` is independent from the values of other columns, with 95% confidence level. 
+From this, we can see that the missingness of ```barons``` is independent of the values of other columns, with 95% confidence level. 
 
 (Some p-values are close to 1, this is because the number of missing ```barons``` is very few.)
 
@@ -271,7 +271,7 @@ frameBorder=0>
 
 We test the two hypotheses by conducting a permutation test by permuting ```kills``` 1000 times and compute the test statistic .
 
-Below is a graph showing the distribution of the test tatistic according to $$H_0$$ and our observed statistic.
+Below is a graph showing the distribution of the test statistic according to $$H_0$$ and our observed statistic.
 
 <iframe 
 src="img/distribution_of_difference_in_mean_(kills).html" 
