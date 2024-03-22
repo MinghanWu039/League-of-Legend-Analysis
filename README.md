@@ -433,7 +433,9 @@ frameBorder=0>
 
 ### Improvement of Final Model
 
-Here is a summary of the model accuracy of the baseline model and the final model. There is a slight improvement compared to the baseline model.
+Here is a summary of the model accuracy of the baseline model and the final 
+model. There is a slight improvement compared to the baseline model (0.0442% 
+improved on predict test dataset).
 
 <iframe 
 src="table/model_scores.html" 
