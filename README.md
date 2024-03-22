@@ -16,9 +16,9 @@ In this report, we discuss one question, and one prediction problem.
 
 *Question to Answer:*
 
-In the history of LoL, the choice of side (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. If this is true, then the result of game largely depends on luck -- the team on the blue side has a significant advantage -- and hence the outcome of one game does not necessarily reflect the strength of a team. For this reason, we put forth this question:
+In the history of LoL, the side of team (blue or red) is often believed to have an influence on the team winning rate, with the blue side having a greater chance of winning. If this is true, then the result of game largely depends on luck -- the team on the blue side has a significant advantage -- and hence the outcome of one game does not necessarily reflect the strength of a team. For this reason, we put forth this question:
 
-_Will the choice of side by a team in a game affect the team kills?_
+_Will the side of team by a team in a game affect the team kills?_
 
 * $$H_0$$: The blue side has the same expected team kills as the red side.
 
@@ -85,7 +85,9 @@ _6_ Convert all binary encoded columns to ```bool```
 
 _7_ Convert all numerical column with integral values to ```int```
 
-We follow these steps so that only data that is reasonable and helpful for our analysis is kept. This makes the following analysis easier and less influenced by irrelevant information.
+We follow these steps so only team data is kept, which all alysis is based 
+on team. Moreover, remove those extreme value will improve the significant 
+of the analysis.
 
 This table shows the first several rows of the dataframe after data cleaning:
 
@@ -155,7 +157,7 @@ As such, the missing mechanism of ```game``` is NMAR, with value 1 (representing
 
 ### Missing at Random (MAR)
 
-We believe the missingness of ```elders``` and ```opp_elders```is not NMAR because there is no reason why the missingness of ```elders``` is dependent on the (missing) values themselves.
+We believe the missingness of ```elders``` and ```opp_elders``` is not NMAR because there is no reason why the missingness of ```elders``` is dependent on the (missing) values themselves.
 
 However, we believe the missingness of ```elders``` and ```opp_elders``` is dependent on ```patch```. To confirm this idea, we run a permutation test on the two columns (using Total Variation Distance (tvd) as statistic).
 
@@ -219,25 +221,33 @@ After running the same test on the missingness of ```opp_barons```, we got the s
 
 ### Handling Missingness (Imputation)
 
-* Perform probabilistic imputation on missing ```elders``` conditional on ```patch```. We use ```np.random.choice``` to randomly select $$n$$ ```elders``` values from the rows with the same ```patch```, where $$n$$ is the number of ```elders``` missing corresponding to that ```patch``` (we regard na value in ```patch``` as a valid category). Note that for those patches where ```elders``` do not exist, the non-missing values are all 0, and hence the imputed values must be 0.
+* Perform probabilistic imputation on missing ```elders``` and 
+  ```opp_elders``` conditional on ```patch```. We use ```np.random.choice``` 
+  to randomly select $$n$$ ```elders``` / ```opp_elders``` values from the 
+  rows with the same ```patch```, where $$n$$ is the number of ```elders``` 
+  / ```opp_elders``` missing corresponding to that ```patch``` (we regard na 
+  value in ```patch``` as a valid category). Note that for those patches 
+  don't have elders, the non-missing values are all 0, and 
+  hence the imputed values must be 0.
 
-* Listwise delete rows where ```barons``` is missing (delete all rows where ```barons``` is missing), since ```barons``` is missing completely at random.
+* Listwise delete rows where ```barons``` and ```opp_barons``` is missing (delete all rows where ```barons``` and ```opp_barons``` is missing), since ```barons``` and ```opp_barons``` is missing completely at random.
 
 ## Hypothesis Testing
 
-As mentioned in the introduction, in the history of LoL, the choice of side 
+As mentioned in the introduction, in the history of LoL, the side of the team 
 (blue or red) is often believed to have an influence on the team winning rate, 
 with the blue side having a greater chance of winning. In this section, we 
 want to test out will the kills, which is high correlated with win rate, for 
 each side is having significant difference.
 
-Question: _Will the of side by a team in a game affect the team kills?_
+Question: _Will the of side of the team in a game affect the team kills?_
 
 * $$H_0$$: The blue side has the same expected team kills as the red side.
 
 * $$H_1$$: The blue side has higher expected team kills than the red side.
 
-* Test statistic: _average kills blue - average kills red_
+* Test statistic: _average kills blue - average kills red_ (Since we are 
+  perform a one side hypothesis test)
 
 * Significance level: 5%
 
@@ -356,6 +366,7 @@ We believe this model is effective, based on the high accuracy it gets.
 
 In this model, we have added derivative features to the dataframe, together with the original 22 features. The final model has 30 features in total.
 
+Here are the 8 new features:
 * ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$ (If for a row```death``` is 0, we set ```death``` to 1). This is a commonly used measure for team performance. It takes into account the ratio of kills and assists to deaths.
 * ```soul``` ```opp_soul```: Binary indicator of whether 
   ```dragons```/```opp_dragons``` is greater than or equal to 4. This is important because in later 
@@ -394,11 +405,22 @@ height=500
 frameBorder=0>
 </iframe>
 
-From this process, we conclude that the best parameter combination is
+From this process, we conclude that the best hypermeters combination is
 
 * ```max_iter = 100```
 
 * ```solver = "newton-cg"```.
+
+### Model Result
+
+The following dataframe shows the model accuracy:
+
+<iframe 
+src="table/final_model_score.html" 
+width=750 
+height=100
+frameBorder=0>
+</iframe>
 
 Here shows the confusion matrix on the test set of the optimal model that we found:
 
@@ -409,14 +431,7 @@ height=500
 frameBorder=0>
 </iframe>
 
-Here the two confusion matrices are shown side by side:
-
-<iframe 
-src="img/model_matrixs.html" 
-width=800
-height=450
-frameBorder=0>
-</iframe>
+### Improvement of final model
 
 Here is a summary of the model accuracy of the baseline model and the final model. There is a slight improvement compared to the baseline model.
 
@@ -424,6 +439,15 @@ Here is a summary of the model accuracy of the baseline model and the final mode
 src="table/model_scores.html" 
 width=750
 height=180
+frameBorder=0>
+</iframe>
+
+The two confusion matrices for two models:
+
+<iframe 
+src="img/model_matrixs.html" 
+width=800
+height=450
 frameBorder=0>
 </iframe>
 
