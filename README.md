@@ -74,15 +74,6 @@ Here lists the columns we decide to keep along with their description:
 1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
 
 2 Drop all columns that are all na values, which is not associated with teams
-<<<<<<< Updated upstream
-=======
-3 Keep only the columns useful for our analysis
-4 Convert ```patch``` to major patch
-5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
-6 drop rows that the earned gold is less than 0, it should only contain positive value
-7 Convert all binary encoded columns to ```bool```
-8 Convert all numerical column with integral values to ```int```
->>>>>>> Stashed changes
 
 3 Keep only the columns useful for our analysis
 
@@ -100,7 +91,7 @@ This table shows the first several rows of the dataframe after data cleaning:
 
 <iframe 
 src="table/teams_cleaned.html" 
-width=800 
+width=750
 height=220
 frameBorder=0>
 </iframe>  
@@ -138,7 +129,7 @@ The following pivot table shows the average team kills for lost and won teams fo
 
 <iframe 
 src="table/avg_kills.html" 
-width=800 
+width=750 
 height=400
 frameBorder=0>
 </iframe>
@@ -151,7 +142,7 @@ In this section, we analyze the missing mechanisms of several of the columns. To
 
 <iframe 
 src="table/col_missing.html" 
-width=800
+width=750
 height=250
 frameBorder=0>
 </iframe>
@@ -164,7 +155,9 @@ As such, the missing mechanism of ```game``` is NMAR, with value 1 (representing
 
 ### Missing at Random (MAR)
 
-We believe the missingness of ```elders``` is dependent on ```patch```. To confirm this observation, we run a permutation test on the two columns (using Total Variation Distance (tvd) as statistic).
+We believe the missingness of ```elders``` and ```opp_elders```is not NMAR because there is no reason why the missingness of ```elders``` is dependent on the (missing) values themselves.
+
+However, we believe the missingness of ```elders``` and ```opp_elders``` is dependent on ```patch```. To confirm this idea, we run a permutation test on the two columns (using Total Variation Distance (tvd) as statistic).
 
 This is the observed conditional distribution:
 
@@ -179,7 +172,7 @@ This is the DataFrame showing the same distribution:
 
 <iframe 
 src="table/elder_missingness.html" 
-width=800
+width=750
 height=450
 frameBorder=0>
 </iframe>
@@ -199,23 +192,22 @@ test is $$0.0$$.
 
 Hence, we conclude that the missingness of ```elders``` is dependent on ```patch```, making the former missing at random.
 
-However, we believe the missingness is not NMAR because there is no reason why the missingness of ```elders``` is dependent on the (missing) values themselves.
+After running the same test on the missingness of ```opp_elders```, we find the pattern similar (which is expected because it is inherently in pairs with ```elders```)
 
-_Note: the missingness of ```elders``` is also dependent on ```opp_elders```, but we ignore it because it is inherently in pairs with ```elders``_
 
 ### Missing Completely at Random (MCAR)
 
-We believe the missing mechanism of ```barons``` is completely at random. To confirm this, we run permutation tests against each every one of other columns (except for ```opp_barons```, which is inherently in pairs with ```barons```, and which we impute together with ```barons```). 
+We believe the missing mechanism of ```barons``` and ```opp_barons``` is completely at random. To confirm this, we run permutation tests against each every one of other columns. 
 
 For numerical columns, we compute the absolute differences between the means of the missing group and the non-missing group; 
 
 For categorical columns, we compute the tvds between the missing group and the non-missing group.
 
-Here is the DataFrame showing our result:
+Here is the DataFrame showing our result for ```barons```:
 
 <iframe 
 src="table/barons_missingness.html" 
-width=800
+width=750
 height=400
 frameBorder=0>
 </iframe>
@@ -223,6 +215,8 @@ frameBorder=0>
 From this, we can see that the missingness of ```barons``` is independent from the values of other columns, with 95% confidence level. 
 
 (Some p-values are close to 1, this is because the number of missing ```barons``` is very few.)
+
+After running the same test on the missingness of ```opp_barons```, we got the same result.
 
 ### Handling Missingness (Imputation)
 
@@ -232,7 +226,6 @@ From this, we can see that the missingness of ```barons``` is independent from t
 
 ## Hypothesis Testing
 
-[//]: # (TODO)
 As mentioned in the introduction, in the history of LoL, the choice of side 
 (blue or red) is often believed to have an influence on the team winning rate, 
 with the blue side having a greater chance of winning. In this section, we 
@@ -258,7 +251,7 @@ This dataframe shows the observed data:
 
 <iframe 
 src="table/kills_observed.html" 
-width=800
+width=750
 height=150
 frameBorder=0>
 </iframe>
@@ -299,24 +292,24 @@ For this model, all features come from the cleaned dataframe after imputation.
 
 <iframe 
 src="table/model_df.html" 
-width=800 
+width=750 
 height=280
 frameBorder=0>
 </iframe>
 
 Here, we describe what transformation we have applied to each category:
 
-#### Nominal
+**Nominal**
 
 We one-hot-encode every categorical column (each time, drop one of the columns generated to avoid colinearity).
 
-#### Numerical
+**Numerical**
 
 We standardize every numerical column.
 
 That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n$$, we let $$X_{std, i}=\frac{X_i-\bar{X}}{SD_X}$$.
 
-#### Ordinal
+**Ordinal**
 
 _We do not have any ordinal feature in our selection, since no categorical column has more than 2 values that have an inherent order i.e. exchanging the labels makes no difference._
 
@@ -336,7 +329,7 @@ The following dataframe shows the model accuracy:
 
 <iframe 
 src="table/baseline_model_score.html" 
-width=800 
+width=750 
 height=100
 frameBorder=0>
 </iframe>
@@ -356,7 +349,7 @@ In this model, we have added derivative columns to the dataframe.
 
 * ```kda```: Calculated by $$\frac{kills+0.5\times assists}{deaths}$$. This is a commonly used measure for team performance. (If for a row```death``` is 0, we set ```death``` to 1)
 * ```soul``` ```opp_soul```: Binary indicator of whether 
-  $$```dragons```/```opp_dragons``` >= 4$$. This is important because in later 
+  ```dragons```/```opp_dragons``` is greater than or equal to 4. This is important because in later 
   patch, a team gets dragon soul buff once they get 4 dragons.
 * ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which the data changes in the game.
 
@@ -387,12 +380,16 @@ This is the result of GridSearchCV:
 
 <iframe 
 src="table/hypermeters.html" 
-width=800 
+width=750
 height=500
 frameBorder=0>
 </iframe>
 
-From this process, we conclude that the best parameter combination is ```max_iter = 100``` and ```solver = "newton-cg"```.
+From this process, we conclude that the best parameter combination is 
+
+```max_iter = 100``` and 
+
+```solver = "newton-cg"```.
 
 Here shows the confusion matrix on the test set of the optimal model that we found:
 
@@ -416,7 +413,7 @@ Here is a summary of the model accuracy of the baseline model and the final mode
 
 <iframe 
 src="table/model_scores.html" 
-width=800 
+width=750
 height=180
 frameBorder=0>
 </iframe>
@@ -443,7 +440,7 @@ This dataframe shows the observed statistic:
 
 <iframe 
 src="table/fairness_observed.html" 
-width=800 
+width=750
 height=150
 frameBorder=0>
 </iframe>
