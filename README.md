@@ -284,7 +284,8 @@ We will use (test set) accuracy to evaluate our model, since
 
 Our baseline model uses _logistic regression_ to predict whether the team will win or lose given the features we select. 
 
-Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical)(_We do not have any ordinal feature in our selection, since no categorical column has more than 3 values that have an inherent order_). 
+Here is a dataframe showing the features we use in our baseline model, separated by category (nominal, ordinal, numerical). 
+
 For this model, all features come from the cleaned dataframe after imputation.
 
 <iframe 
@@ -305,6 +306,11 @@ We one-hot-encode every categorical column (each time, drop one of the columns g
 We standardize every numerical column.
 
 That is, for every column $$X=(X_1, X_2, ..., X_n)$$, for every $$i=1, 2, ..., n$$, we let $$X_{std, i}=\frac{X_i-\bar{X}}{SD_X}$$.
+
+#### Ordinal
+
+_We do not have any ordinal feature in our selection, since no categorical column has more than 2 values that have an inherent order i.e. exchanging the labels makes no difference._
+
 
 ### Model Parameters
 
@@ -344,8 +350,6 @@ In this model, we have added derivative columns to the dataframe.
   $$```dragons```/```opp_dragons``` >= 4$$. This is important because in later 
   patch, a team gets dragon soul buff once they get 4 dragons.
 * ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which the data changes in the game.
-
-[//]: # (TODO: 我没看懂per min, "rate at which these important data updates")
 
 For the final model, we decide to stick to logistic regression. 
 
