@@ -74,6 +74,15 @@ Here lists the columns we decide to keep along with their description:
 1 We only consider team data, so drop all player rows, only keeping the rows where ```position``` is ```team```
 
 2 Drop all columns that are all na values, which is not associated with teams
+<<<<<<< Updated upstream
+=======
+3 Keep only the columns useful for our analysis
+4 Convert ```patch``` to major patch
+5 Drop all rows where ```gamelength``` is greater than 2 hrs (since the longest game in the history of LOL is about 1h30min), convert the unit of ```gamelength``` from s to min
+6 drop rows that the earned gold is less than 0, it should only contain positive value
+7 Convert all binary encoded columns to ```bool```
+8 Convert all numerical column with integral values to ```int```
+>>>>>>> Stashed changes
 
 3 Keep only the columns useful for our analysis
 
@@ -448,6 +457,6 @@ height=500
 frameBorder=0>
 </iframe>
 
-Since the _p-value_ is 0.294 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 
+Since the _p-value_ is 0.294 and $$0.294>0.05$$, we fail to reject $$H_0$$ at 
 95% confidence level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
 
