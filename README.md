@@ -192,9 +192,11 @@ Hence, we conclude that the missingness of ```elders``` is dependent on ```patch
 
 However, we believe the missingness is not NMAR because there is no reason why the missingness of ```elders``` is dependent on the (missing) values themselves.
 
+_Note: the missingness of ```elders``` is also dependent on ```opp_elders```, but we ignore it because it is inherently in pairs with ```elders``_
+
 ### Missing Completely at Random (MCAR)
 
-We believe the missing mechanism of ```barons``` is completely at random. To confirm this, we run permutation tests against each every one of other columns. 
+We believe the missing mechanism of ```barons``` is completely at random. To confirm this, we run permutation tests against each every one of other columns (except for ```opp_barons```, which is inherently in pairs with ```barons```, and which we impute together with ```barons```). 
 
 For numerical columns, we compute the absolute differences between the means of the missing group and the non-missing group; 
 
@@ -276,7 +278,7 @@ We will use (test set) accuracy to evaluate our model, since
 * It is a more direct metric for the success of the model
 * We do not have a preference towards false positive / false negative
 * The ```result``` we get after cleaning and imputation has about equal 
-  numbers of ```1``` and ```0``` (the percentage of _winning_ is $$50.01%$$)
+  numbers of ```True``` and ```False``` (the percentage of _winning_ is $$50.01%$$)
 
 ## Baseline Model
 
@@ -341,7 +343,7 @@ In this model, we have added derivative columns to the dataframe.
 * ```soul``` ```opp_soul```: Binary indicator of whether 
   $$```dragons```/```opp_dragons``` >= 4$$. This is important because in later 
   patch, a team gets dragon soul buff once they get 4 dragons.
-* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which the data increases in the game.
+* ```kills_per_min``` ```deaths_per_min``` ```assists_per_min``` ```damagetochampions_per_min``` ```earnedgold_per_min```: Those columns over ```gamelength```. This can be helpful because they indicate the rate at which the data changes in the game.
 
 [//]: # (TODO: 我没看懂per min, "rate at which these important data updates")
 
@@ -442,6 +444,6 @@ height=500
 frameBorder=0>
 </iframe>
 
-Since the _p-value_ is 0.265 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 
+Since the _p-value_ is 0.294 and $$0.265>0.05$$, we fail to reject $$H_0$$ at 
 95% confidence level. The difference in observed accuracy is not statistically significant to suggest that our model works better on blue side than on red side.
 
